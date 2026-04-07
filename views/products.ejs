@@ -1,0 +1,46 @@
+<%- include('partials/header') %>
+    <div class="container">
+        <div class="page-header">
+            <h1>All Products</h1>
+
+            <!-- Category Filter -->
+            <div class="filters">
+                <a href="/products?category=all"
+                    class="filter-btn <%= activeCategory === 'all' ? 'active' : '' %>">All</a>
+                <% categories.forEach(category=> { %>
+                    <a href="/products?category=<%= category %>"
+                        class="filter-btn <%= activeCategory === category ? 'active' : '' %>">
+                        <%= category.charAt(0).toUpperCase() + category.slice(1) %>
+                    </a>
+                    <% }) %>
+            </div>
+        </div>
+
+        <div class="products-grid">
+            <% products.forEach(product=> { %>
+
+                <div class="product-card">
+
+                    <img src="/uploads/<%= product.image %>" class="product-image">
+
+                    <div class="product-info">
+                        <h3>
+                            <%= product.name %>
+                        </h3>
+                        <p>
+                            <%= product.brand %>
+                        </p>
+                        <div class="product-price">₹<%= product.price %>
+                        </div>
+
+                        <button class="add-to-cart-btn" data-id="<%= product.id %>">
+                            Add to Cart
+                        </button>
+                    </div>
+
+                </div>
+
+                <% }) %>
+        </div>
+    </div>
+    <%- include('partials/footer') %>

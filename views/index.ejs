@@ -1,0 +1,45 @@
+<%- include('partials/header') %>
+
+<div class="hero">
+    <div class="hero-content">
+        <h1>🍟 Welcome to SnackStore</h1>
+        <p>Your one-stop shop for all your crunchy cravings!</p>
+        <a href="/products" class="cta-btn">Shop Now</a>
+    </div>
+</div>
+
+<div class="container">
+
+    <!-- 🔥 CATEGORY FILTER -->
+    
+
+    <section class="featured-products">
+        <h2>Featured Snacks</h2>
+
+        <div class="products-grid">
+            <% products.forEach(product => { %>
+
+                <div class="product-card">
+
+                    <img src="/uploads/<%= product.image %>" class="product-image">
+
+                    <div class="product-info">
+                        <h3><%= product.name %></h3>
+                        <p class="product-brand"><%= product.brand %></p>
+                        <div class="product-price">₹<%= product.price %></div>
+
+                        <button class="add-to-cart-btn" data-id="<%= product.id %>">
+                            <i class="fas fa-cart-plus"></i> Add to Cart
+                        </button>
+                    </div>
+
+                </div>
+
+            <% }) %>
+        </div>
+
+    </section>
+
+</div>
+
+<%- include('partials/footer') %>

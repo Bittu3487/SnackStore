@@ -1,0 +1,57 @@
+<%- include('partials/header') %>
+
+<div class="container">
+    <div class="success-page">
+        
+        <div class="success-icon">
+            <i class="fas fa-check-circle" style="font-size: 6rem; color: #28a745;"></i>
+        </div>
+
+        <h1>Order Placed Successfully!</h1>
+        <p>Thank you for your order, <strong><%= order.name %></strong> 🎉</p>
+
+        <div class="order-details">
+            <h3>Order Details</h3>
+
+            <p><strong>📞 Phone:</strong> <%= order.phone %></p>
+            <p><strong>📍 Address:</strong> <%= order.address %></p>
+            <p><strong>💳 Payment:</strong> Cash on Delivery</p>
+
+            <hr>
+
+            <h4>🛒 Items:</h4>
+
+            <% if (order.items && order.items.length > 0) { %>
+                <% order.items.forEach(item => { %>
+                    <div class="order-item">
+                        <span><%= item.name %> (x<%= item.quantity %>)</span>
+                        <span>₹<%= (item.price * item.quantity).toFixed(2) %></span>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p>No items found.</p>
+            <% } %>
+
+            <hr>
+
+            <div class="summary-total">
+                <strong>Total Amount:</strong>
+                <strong>₹<%= Number(order.total || 0).toFixed(2) %></strong>
+            </div>
+        </div>
+
+        <div class="success-actions">
+    <a href="<%= whatsappURL %>" target="_blank" class="cta-btn">
+        📲 Send Order on WhatsApp
+    </a>
+
+    <br><br>
+
+    <a href="/" class="cta-btn">Continue Shopping</a>
+</div>
+
+
+    </div>
+</div>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,92 @@
+<%- include('partials/header') %>
+
+    <div class="container">
+        <h1>📦 Manage Products</h1>
+
+        <!-- ✅ ADD PRODUCT -->
+        <form action="/admin/products/add" method="POST" enctype="multipart/form-data">
+
+            <input type="text" name="name" placeholder="Product Name" required>
+            <input type="number" name="price" placeholder="Price" required>
+
+            <select name="category">
+                <option value="chips">Chips</option>
+                <option value="biscuits">Biscuits</option>
+                <option value="drink">Drink</option>
+                <option value="kurkure">Kurkure</option>
+                <option value="Choclate">Choclate</option>
+                <option value="namkeen">Namkeen</option>
+                <option value="spicy">Spicy</option>
+
+                
+            </select>
+
+            <input type="text" name="brand" placeholder="Brand">
+
+            <!-- ✅ FILE UPLOAD -->
+            <input type="file" name="image" required>
+
+            <button type="submit">Add Product</button>
+        </form>
+
+        <hr>
+
+        <!-- 📦 PRODUCT LIST -->
+        <% products.forEach(p=> { %>
+            <div class="product-card">
+
+                <img src="<%= p.image %>" width="80">
+
+                <div>
+                    <h3>
+                        <%= p.name %>
+                    </h3>
+                    <p>
+                        <%= p.brand %>
+                    </p>
+                    <p>₹<%= p.price %>
+                    </p>
+
+                    <!-- STOCK -->
+                    <p>
+                        Status:
+                        <% if (p.stock) { %>
+                            <span style="color:green;">In Stock</span>
+                            <% } else { %>
+                                <span style="color:red;">Out of Stock</span>
+                                <% } %>
+                    </p>
+                </div>
+
+                <!-- ✏️ EDIT -->
+                <form action="/admin/products/edit/<%= p.id %>" method="POST">
+                    <input name="name" value="<%= p.name %>">
+                    <input name="brand" value="<%= p.brand %>">
+                    <input name="price" value="<%= p.price %>">
+                    <input name="image" value="<%= p.image %>">
+                    <button>Update</button>
+                </form>
+
+                <!-- 🔴 STOCK TOGGLE -->
+                <form action="/admin/products/toggle/<%= p.id %>" method="POST">
+                    <button>
+                        <% if (p.stock) { %>
+                            Mark Out of Stock
+                            <% } else { %>
+                                Mark In Stock
+                                <% } %>
+                    </button>
+                </form>
+
+                <!-- ❌ DELETE -->
+                <form action="/admin/products/delete/<%= p.id %>" method="POST"
+                    onsubmit="return confirm('Delete this product?')">
+                    <button style="background:red;color:white;">Delete</button>
+                </form>
+
+            </div>
+            <% }) %>
+
+    </div>
+
+    <%- include('partials/footer') %>

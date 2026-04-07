@@ -1,0 +1,53 @@
+<%- include('partials/header') %>
+<div class="container">
+    <h1><i class="fas fa-shopping-cart"></i> Your Cart</h1>
+    
+    <% if (cartItems.length === 0) { %>
+        <div class="empty-cart">
+            <i class="fas fa-shopping-cart" style="font-size: 4rem; color: #ccc;"></i>
+            <h3>Your cart is empty</h3>
+            <p>Add some delicious snacks to get started!</p>
+            <a href="/products" class="cta-btn">Continue Shopping</a>
+        </div>
+    <% } else { %>
+        <div class="cart-container">
+            <div class="cart-items">
+                <% cartItems.forEach(item => { %>
+                    <div class="cart-item" data-id="<%= item.id %>">
+                        <img src="<%= item.image %>" alt="<%= item.name %>" class="cart-item-image">
+                        <div class="cart-item-details">
+                            <h4><%= item.name %></h4>
+                            <p><%= item.brand %></p>
+                            <p class="item-price">₹<%= item.price %></p>
+                        </div>
+                        <div class="cart-item-quantity">
+                            <button class="qty-btn minus" data-id="<%= item.id %>">-</button>
+                            <span class="qty"><%= item.quantity %></span>
+                            <button class="qty-btn plus" data-id="<%= item.id %>">+</button>
+                        </div>
+                        <div class="cart-item-total">₹<%= (item.price * item.quantity).toFixed(2) %></div>
+                        <button class="remove-item" data-id="<%= item.id %>">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                <% }) %>
+            </div>
+            
+            <div class="cart-summary">
+                <h3>Order Summary</h3>
+                <div class="summary-row">
+                    <span>Total Items:</span>
+                    <span><%= cartItems.reduce((sum, item) => sum + item.quantity, 0) %></span>
+                </div>
+                <div class="summary-total">
+                    <span>Total Amount:</span>
+                    <span>₹<%= total.toFixed(2) %></span>
+                </div>
+                <a href="/checkout" class="checkout-btn">
+                    <i class="fas fa-credit-card"></i> Proceed to Checkout
+                </a>
+            </div>
+        </div>
+    <% } %>
+</div>
+<%- include('partials/footer') %>

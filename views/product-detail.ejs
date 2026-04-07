@@ -1,0 +1,41 @@
+<%- include('partials/header') %>
+<div class="container">
+    <div class="product-detail">
+        <div class="product-images">
+            <img src="<%= product.image %>" alt="<%= product.name %>" class="main-image">
+        </div>
+        
+        <div class="product-content">
+            <h1><%= product.name %></h1>
+            <p class="product-brand"><%= product.brand %></p>
+            <div class="product-price-large">₹<%= product.price %></div>
+            
+            <div class="product-description">
+                <h3>About this product</h3>
+                <p><%= product.description %></p>
+            </div>
+            
+            <div class="add-to-cart-section">
+                <div class="quantity-selector">
+                    <button class="qty-btn" onclick="updateQty(-1)">-</button>
+                    <input type="number" id="quantity" value="1" min="1" max="99">
+                    <button class="qty-btn" onclick="updateQty(1)">+</button>
+                </div>
+                <button class="add-to-cart-large" data-id="<%= product.id %>">
+                    <i class="fas fa-cart-plus"></i> Add to Cart
+                </button>
+            </div>
+            
+            <a href="/products" class="back-btn">← Back to Products</a>
+        </div>
+    </div>
+</div>
+
+<script>
+function updateQty(change) {
+    let qty = parseInt(document.getElementById('quantity').value);
+    qty = Math.max(1, qty + change);
+    document.getElementById('quantity').value = qty;
+}
+</script>
+<%- include('partials/footer') %>
