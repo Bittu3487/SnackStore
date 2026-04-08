@@ -4,22 +4,23 @@ require('dotenv').config();
 let pool;
 
 if (process.env.DATABASE_URL) {
-    // ✅ Render / Production
+    // ✅ Production (Render)
     pool = new Pool({
         connectionString: process.env.DATABASE_URL,
         ssl: {
             rejectUnauthorized: false
         }
     });
-} else {
-    // ✅ Local PostgreSQL
-    pool = new Pool({
+
+
+
+    // ✅ Local (NO SSL)
+    }    pool = new Pool({
         user: process.env.USER,
         host: process.env.HOST,
-        database: process.env.NAME,
-        password: process.env.PASS,
+        database: process.env.DATABASE,
+        password: process.env.PASSWORD,
         port: process.env.PORT,
     });
-}
 
 module.exports = pool;
