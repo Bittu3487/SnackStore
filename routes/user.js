@@ -31,30 +31,31 @@ router.get('/register', (req, res) => {
 // 📝 Handle Register
 router.post('/register', async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password  } = req.body;
 
-        const otp = generateOTP();
-        console.log("OTP:", otp);
+        // const otp = generateOTP();
+        // console.log("OTP:", otp);
 
         // ✅ FIXED QUERY
         await pool.query(
-            'INSERT INTO users (name, email, password, otp, is_verified) VALUES ($1,$2,$3,$4,$5)',
-            [name, email, password, otp, false]
+            'INSERT INTO users (name, email, password ) VALUES ($1,$2,$3)',
+            [name, email, password ]
         );
+        res.redirect('/user/login');
 
         // ✅ SEND MAIL (TRY)
-        try {
-            await transporter.sendMail({
-                from: process.env.EMAIL_USER,
-                to: email,
-                subject: 'OTP Verification',
-                text: `Your OTP is ${otp}`
-            });
-        } catch (mailErr) {
-            console.log("Email failed ❌ using console OTP instead");
-        }
+        // try {
+        //     await transporter.sendMail({
+        //         from: process.env.EMAIL_USER,
+        //         to: email,
+        //         subject: 'OTP Verification',
+        //         text: `Your OTP is ${otp}`
+        //     });
+        // } catch (mailErr) {
+        //     console.log("Email failed ❌ using console OTP instead");
+        // }
 
-        res.render('verify-otp', { email });
+        // res.render('verify-otp', { email });
 
     } catch (err) {
         console.error(err);
@@ -63,31 +64,31 @@ router.post('/register', async (req, res) => {
 });
 
 // 🔐 VERIFY OTP
-router.post('/verify-otp', async (req, res) => {
-    try {
-        const { email, otp } = req.body;
+// router.post('/verify-otp', async (req, res) => {
+//     try {
+//         const { email, otp } = req.body;
 
-        const result = await pool.query(
-            'SELECT * FROM users WHERE email=$1 AND otp=$2',
-            [email, otp]
-        );
+//         const result = await pool.query(
+//             'SELECT * FROM users WHERE email=$1 AND otp=$2',
+//             [email, otp]
+//         );
 
-        if (result.rows.length === 0) {
-            return res.send("Invalid OTP ❌");
-        }
+//         if (result.rows.length === 0) {
+//             return res.send("Invalid OTP ❌");
+//         }
 
-        await pool.query(
-            'UPDATE users SET is_verified=true, otp=NULL WHERE email=$1',
-            [email]
-        );
+//         await pool.query(
+//             'UPDATE users SET is_verified=true, otp=NULL WHERE email=$1',
+//             [email]
+//         );
 
-        res.redirect('/user/login');
+//         res.redirect('/user/login');
 
-    } catch (err) {
-        console.error(err);
-        res.send("OTP error");
-    }
-});
+//     } catch (err) {
+//         console.error(err);
+//         res.send("OTP error");
+//     }
+// });
 
 // 🔐 LOGIN
 router.post('/login', async (req, res) => {
@@ -105,9 +106,9 @@ router.post('/login', async (req, res) => {
 
         const user = result.rows[0];
 
-        if (!user.is_verified) {
-            return res.send("Verify OTP first ❌");
-        }
+        // if (!user.is_verified) {
+        //     return res.send("Verify OTP first ❌");
+        // }
 
         req.session.user = user;
 
