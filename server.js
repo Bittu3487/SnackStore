@@ -101,7 +101,7 @@ app.get('/admin/orders', async (req, res) => {
         res.send('Error loading orders');
     }
 });
-const PORT =  process.env.port || 3000;
+const PORT =  process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Snack Store running on http://localhost:${PORT}`);
 });
